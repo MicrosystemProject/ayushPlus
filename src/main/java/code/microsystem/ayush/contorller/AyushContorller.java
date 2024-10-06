@@ -11,6 +11,6 @@ public class AyushContorller {
 
     @GetMapping("/health")
     public String getHealth(){
-    return "AyushPlus api running Healthy with version 1.0";
+    return "AyushPlus api running Healthy on dev with version 1.0";
 }
 }
