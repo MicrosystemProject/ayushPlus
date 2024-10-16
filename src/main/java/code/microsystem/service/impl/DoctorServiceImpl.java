@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import code.microsystem.dto.DoctorRequest;
-
 import code.microsystem.entity.Doctor;
 //import code.microsystem.entity.Patient;
 import code.microsystem.exception.DoctorNotFoundException;

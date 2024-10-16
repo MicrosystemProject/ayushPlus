@@ -1,7 +1,6 @@
 package code.microsystem.entity;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.Period;
 
 import jakarta.persistence.CascadeType;
