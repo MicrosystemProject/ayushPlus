@@ -33,7 +33,7 @@ import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/api/v1/patient")
-//patient controller
+
 public class PatientController {
 
 	@Autowired
