@@ -33,9 +33,7 @@ import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/api/v1/patient")
-
 public class PatientController {
-
 	@Autowired
 	private PatientService patientService;
 
@@ -87,7 +85,6 @@ public class PatientController {
 			throw new PatientNotFoundException("Patient Id does not exists :" + pId);
 		}
 		return new ResponseEntity<>(patient, HttpStatus.OK);
-
 	}
 
 	@Operation(summary = "Retrive All Patient Details", description = "Get all patient detals by sending this request")
@@ -100,7 +97,6 @@ public class PatientController {
 	public ResponseEntity<List<Patient>> getAllPatient() {
 		List<Patient> patient = patientService.getAllPatient();
 		return new ResponseEntity<List<Patient>>(patient, HttpStatus.OK);
-
 	}
 
 	@Operation(summary = "Delete patient by Patient Id", description = "Delete patient by the patient Id")
@@ -113,7 +109,6 @@ public class PatientController {
 	public ResponseEntity<String> deletePatientByPId(@PathVariable("pId") int pId) throws PatientNotFoundException {
 		patientService.deletePatientByPId(pId);
 		return new ResponseEntity<>("Patient Record Deleted  :" + pId, HttpStatus.ACCEPTED);
-
 	}
 
 	@Operation(summary = "Update patient by Patient Id using Parameter patientId", description = "Update user info using patient Id")
@@ -127,7 +122,6 @@ public class PatientController {
 			throws PatientNotFoundException {
 		Patient patient = patientService.editPatient(patientRequest);
 		return new ResponseEntity<Patient>(patient, HttpStatus.OK);
-
 	}
 
 	@Operation(summary = "Update patient by Patient Id using Parameter patientId", description = "Update user info using patient Id")
@@ -144,12 +138,9 @@ public class PatientController {
 		if (list.isEmpty())
 			throw new PatientNotFoundException("Patient Record Not Found......");
 		return new ResponseEntity<List<Patient>>(list, HttpStatus.OK);
-
 	}
 
-	@Operation(
-			// System.out.print("false");
-			summary = "Find Patient Email And Mobile Number by Id", description = "Get a Patient object by specifying its id. The response is Patient object .")
+	@Operation(summary = "Find Patient Email And Mobile Number by Id", description = "Get a Patient object by specifying its id. The response is Patient object .")
 	@ApiResponses({
 			@ApiResponse(responseCode = "200", content = {
 					@Content(schema = @Schema(implementation = Patient.class), mediaType = "application/json") }),

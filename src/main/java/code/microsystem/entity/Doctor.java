@@ -21,85 +21,67 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name="doctor_info")
+@Table(name = "doctor_info")
 @Setter
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Doctor extends BaseEntity{
+public class Doctor extends BaseEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="dId")
+	@Column(name = "dId")
 	private int dId;
-	
 	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name="address_id")
+	@JoinColumn(name = "address_id")
 	private Address address;
-	
-	//@Column(name="doctort_firstName")
+	@Column(name = "doctort_firstName")
 	private String firstName;
-	
-	//@Column(name="doctort_middleName")
+	@Column(name = "doctort_middleName")
 	private String middleName;
-	
-	//@Column(name="doctor_lastName")
+	@Column(name = "doctor_lastName")
 	private String lastName;
-	
-	//@Column(name="doctor_gender")
+	@Column(name = "doctor_gender")
 	private String gender;
-	
-	//@Column(name="doctor_email")
+	@Column(name = "doctor_email")
 	private String email;
-	
-	//@Column(name="doctor_mobileNo")
+	@Column(name = "doctor_mobileNo")
 	private String mobile;
-	
-	@Column(unique = true, nullable = false,length = 12)
+	@Column(unique = true, nullable = false, length = 12)
 	private String aadharNumber;
-
-	//@Column(name="doctor_DOB")
+	@Column(name = "doctor_DOB")
 	private LocalDate dob;
-	
-	//@Column(name="doctor_age")
+	@Column(name = "doctor_age")
 	private int age;
-	
-public void setDob(LocalDate dob) {
-        this.dob = dob;
-   calculateAge();   
- }
 
- 
-   private void calculateAge() {
-       if (dob != null) {
-           this.age = Period.between(dob, LocalDate.now()).getYears();
-     } else {
-           this.age = 0;  // Default if dob is not set
-   }
-  }
+	public void setDob(LocalDate dob) {
+		this.dob = dob;
+		calculateAge();
+	}
 
-   @PrePersist
-  @PreUpdate
-public void updateAgeBeforeSave() {
-	   calculateAge();  // Recalculate age before saving or updating the entity
-   }
-   
+	private void calculateAge() {
+		if (dob != null) {
+			this.age = Period.between(dob, LocalDate.now()).getYears();
+		} else {
+			this.age = 0; // Default if dob is not set
+		}
+	}
 
-	
-	
-	//@Column(name="doctor_department")
+	@PrePersist
+	@PreUpdate
+	public void updateAgeBeforeSave() {
+		calculateAge();
+	}
+
+	@Column(name = "doctor_department")
 	private String department;
-	
-	//@Column(name="doctor_specialization")
+	@Column(name = "doctor_specialization")
 	private String specialization;
-	
-	//@Column(name="doctor_qualification")
+	@Column(name = "doctor_qualification")
 	private String qualification;
 
 	public Doctor orElseThrow(Object object) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 }
-

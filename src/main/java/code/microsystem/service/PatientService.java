@@ -19,13 +19,11 @@ public interface PatientService {
 
 	void deletePatientByPId(int pId) throws PatientNotFoundException;
 
-	Patient editPatient( PatientRequest patientRequest) throws PatientNotFoundException;
+	Patient editPatient(PatientRequest patientRequest) throws PatientNotFoundException;
 
 	List<Patient> findByFirstNameAndAge(String firstName, int age);
-	
-	Patient getPatientById(int pId) throws PatientNotFoundException;
 
-	//Optional<Patient> getPatientById(int pId);
+	Patient getPatientById(int pId) throws PatientNotFoundException;
 
 
 }

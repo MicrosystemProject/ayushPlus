@@ -17,11 +17,10 @@ import jakarta.persistence.MappedSuperclass;
 public class BaseEntity {
 	@CreatedDate
 	@Column(updatable = false)
-	 @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss")
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm")
 	private LocalDateTime createdDate;
-
 	@LastModifiedDate
-	 @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss")
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm")
 	private LocalDateTime lastModifiedDate;
 
 }

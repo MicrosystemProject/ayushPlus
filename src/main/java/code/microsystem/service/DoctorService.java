@@ -7,7 +7,6 @@ import code.microsystem.entity.Doctor;
 import code.microsystem.exception.DoctorNotFoundException;
 import jakarta.validation.Valid;
 
-
 public interface DoctorService {
 
 	Doctor addDoctor(DoctorRequest doctorRequest);
@@ -26,5 +25,4 @@ public interface DoctorService {
 
 	Doctor editDoctor(@Valid DoctorRequest doctorRequest) throws DoctorNotFoundException;
 
-	
 }

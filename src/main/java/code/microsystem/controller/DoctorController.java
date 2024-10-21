@@ -37,7 +37,6 @@ public class DoctorController {
 	@Autowired
 	private DoctorService doctorService;
 
-
 	@Operation(summary = "Get Application Health", description = "Get Application Health .")
 	@ApiResponses({
 			@ApiResponse(responseCode = "200", content = {
@@ -47,19 +46,18 @@ public class DoctorController {
 	public ResponseEntity<String> getHealth() {
 		return new ResponseEntity<String>("Ayush Plus Project is Running Successfully for Good Health..",
 				HttpStatus.OK);
-
 	}
-	@Operation(summary = "Add New Doctor",description = "Add New Doctor")
+
+	@Operation(summary = "Add New Doctor", description = "Add New Doctor")
 	@ApiResponses({
-		 @ApiResponse(responseCode = "200",content = {
-				 @Content(schema = @Schema(implementation = Doctor.class),mediaType = "application/json")}),
-		 @ApiResponse(responseCode = "500" ,content = {@Content(schema = @Schema())})})
+			@ApiResponse(responseCode = "200", content = {
+					@Content(schema = @Schema(implementation = Doctor.class), mediaType = "application/json") }),
+			@ApiResponse(responseCode = "500", content = { @Content(schema = @Schema()) }) })
 	@PostMapping("/addDoctor")
 	public ResponseEntity<Doctor> addDoctor(@Valid @RequestBody DoctorRequest doctorRequest) {
 		Doctor doctor = doctorService.addDoctor(doctorRequest);
 		System.out.print(doctor);
 		return new ResponseEntity<Doctor>(doctor, HttpStatus.CREATED);
-
 	}
 
 	@Operation(summary = "Add Doctor list", description = "Add multiple Doctor information at a time .")
@@ -71,127 +69,97 @@ public class DoctorController {
 	public ResponseEntity<List<Doctor>> addDoctorList(@Valid @RequestBody List<Doctor> doctor) {
 		List<Doctor> d = doctorService.addDoctorList(doctor);
 		return new ResponseEntity<List<Doctor>>(d, HttpStatus.CREATED);
-
 	}
-	
+
 	@Operation(summary = "Retrieve a Doctor by Id", description = "Get a Doctor object by specifying its id. The response is Doctor object .")
 	@ApiResponses({
 			@ApiResponse(responseCode = "200", content = {
 					@Content(schema = @Schema(implementation = Doctor.class), mediaType = "application/json") }),
 			@ApiResponse(responseCode = "404", content = { @Content(schema = @Schema()) }),
 			@ApiResponse(responseCode = "500", content = { @Content(schema = @Schema()) }) })
-	 @GetMapping("/getDoctorBydId/{dId}") 
-	  public ResponseEntity<Doctor>getDoctorBydId(@PathVariable("dId")int dId) throws
-	 DoctorNotFoundException{ Doctor doctor= doctorService.getDoctorBydId(dId);
-	 if(doctor==null) { 
-		 throw new
-	 DoctorNotFoundException("Doctor Id Does Not Exists : "+dId); } return new
-	 ResponseEntity<>(doctor,HttpStatus.OK);
-	 
-	 }
-	
+	@GetMapping("/getDoctorBydId/{dId}")
+	public ResponseEntity<Doctor> getDoctorBydId(@PathVariable("dId") int dId) throws DoctorNotFoundException {
+		Doctor doctor = doctorService.getDoctorBydId(dId);
+		if (doctor == null) {
+			throw new DoctorNotFoundException("Doctor Id Does Not Exists : " + dId);
+		}
+		return new ResponseEntity<>(doctor, HttpStatus.OK);
+	}
+
 	@Operation(summary = "Retrive All Doctor Details", description = "Get all Doctor detals by sending this request")
 	@ApiResponses({
-		@ApiResponse(responseCode = "200", content = {
-				@Content(schema = @Schema(implementation = Doctor.class), mediaType = "application/json") }),
-		@ApiResponse(responseCode = "404", content = { @Content(schema = @Schema()) }),
-		@ApiResponse(responseCode = "500", content = { @Content(schema = @Schema()) }) })
-	  @GetMapping("/getAllDoctor")
-	 public ResponseEntity<List<Doctor>>getAllDoctor(){
-		 List<Doctor> doctor = doctorService.getAllDoctor();
-		 return new ResponseEntity<List<Doctor>>(doctor,HttpStatus.OK);
-	 }
-	
-	@Operation(summary = "Delete Doctor by Doctor Id", description = "Delete Doctor by the Doctor Id")
-	@ApiResponses({
-		@ApiResponse(responseCode = "202",content= {
-				@Content(schema=@Schema(implementation = Doctor.class),mediaType="application/json")}),
-		@ApiResponse(responseCode = "404", content = {
-				@Content(schema = @Schema())}),
-		@ApiResponse(responseCode = "500", content = {
-				@Content(schema=@Schema())
-		})
-	})
-	  @DeleteMapping("/deleteDoctorBydId/{dId}")
-	  public ResponseEntity<String>deleteDoctorBydId(@PathVariable("dId")int dId) throws DoctorNotFoundException{
-		  doctorService.deleteDoctorBydId(dId);
-		return new ResponseEntity<>("Doctor Record Deleted :" +dId,HttpStatus.ACCEPTED);
-		  
-	  }
-	
-	@Operation(summary = "Find FirstName And Age by Doctor ID ", description = "Find by Doctor Id")
-	@ApiResponses({
-		@ApiResponse(responseCode = "200",content= {
-				@Content(schema=@Schema(implementation = Doctor.class),mediaType="application/json")}),
-		@ApiResponse(responseCode = "404", content = {
-				@Content(schema = @Schema())}),
-		@ApiResponse(responseCode = "500", content = {
-				@Content(schema=@Schema())
-		})
-	})
-	  
-	  @GetMapping("/findByFirstNameAndAge")
-	  public ResponseEntity<List<Doctor>>findByFirstNameAndAge(@RequestParam("firstName")String firstName,@RequestParam("age")int age) throws DoctorNotFoundException{
-		  List<Doctor> list = new ArrayList<>();
-		  list = doctorService.findByFirstNameAndAge(firstName,age);
-		  if(list.isEmpty())
-			  throw new DoctorNotFoundException("Doctor Record Not Found.....");
-		return new ResponseEntity<List<Doctor>>(list,HttpStatus.OK);
-		  
-	  }
-	
-	@Operation(
-		    //System.out.print("false");
-			summary = "Find Doctor Email And Mobile Number by Id",
-			description = "Get a Patient object by specifying its id. The response is Patient object ."
-			)
-	@ApiResponses({
-			@ApiResponse(responseCode = "200", content = { @Content(schema = @Schema(implementation = Doctor.class), mediaType = "application/json") }),
+			@ApiResponse(responseCode = "200", content = {
+					@Content(schema = @Schema(implementation = Doctor.class), mediaType = "application/json") }),
 			@ApiResponse(responseCode = "404", content = { @Content(schema = @Schema()) }),
 			@ApiResponse(responseCode = "500", content = { @Content(schema = @Schema()) }) })
-	  @GetMapping("/getDoctorEmailAndMobileUsingId/{dId}")
-	  public ResponseEntity<Map<String,String>>getPatientDetails(@PathVariable int dId){
-		  try {
-			  Doctor doctor = doctorService.getDoctorBydId(dId);
-			  Map<String ,String> res = new HashMap<>();
-			  res.put("email",doctor.getEmail());
-			  res.put("mobile", doctor.getMobile());
-			  return ResponseEntity.ok(res);
-		  }catch(Exception e) {
-			  return ResponseEntity.status(HttpStatus.NOT_FOUND)
-					  .body(Collections.singletonMap("error","Patient Id does not exists....."+ dId));
-			  
-		  }
-		  
-	  }
-	@Operation(
-		    //System.out.print("false");
-			summary = "Edit  Doctor Email And Mobile Number by Id",
-			description = "Edit Patient object by specifying its id. The response is Patient object ."
-			)
+	@GetMapping("/getAllDoctor")
+	public ResponseEntity<List<Doctor>> getAllDoctor() {
+		List<Doctor> doctor = doctorService.getAllDoctor();
+		return new ResponseEntity<List<Doctor>>(doctor, HttpStatus.OK);
+	}
+
+	@Operation(summary = "Delete Doctor by Doctor Id", description = "Delete Doctor by the Doctor Id")
 	@ApiResponses({
-			@ApiResponse(responseCode = "200", content = { @Content(schema = @Schema(implementation = Doctor.class), mediaType = "application/json") }),
+			@ApiResponse(responseCode = "202", content = {
+					@Content(schema = @Schema(implementation = Doctor.class), mediaType = "application/json") }),
+			@ApiResponse(responseCode = "404", content = { @Content(schema = @Schema()) }),
+			@ApiResponse(responseCode = "500", content = { @Content(schema = @Schema()) }) })
+	@DeleteMapping("/deleteDoctorBydId/{dId}")
+	public ResponseEntity<String> deleteDoctorBydId(@PathVariable("dId") int dId) throws DoctorNotFoundException {
+		doctorService.deleteDoctorBydId(dId);
+		return new ResponseEntity<>("Doctor Record Deleted :" + dId, HttpStatus.ACCEPTED);
+	}
+
+	@Operation(summary = "Find FirstName And Age by Doctor ID ", description = "Find by Doctor Id")
+	@ApiResponses({
+			@ApiResponse(responseCode = "200", content = {
+					@Content(schema = @Schema(implementation = Doctor.class), mediaType = "application/json") }),
+			@ApiResponse(responseCode = "404", content = { @Content(schema = @Schema()) }),
+			@ApiResponse(responseCode = "500", content = { @Content(schema = @Schema()) }) })
+
+	@GetMapping("/findByFirstNameAndAge")
+	public ResponseEntity<List<Doctor>> findByFirstNameAndAge(@RequestParam("firstName") String firstName,
+			@RequestParam("age") int age) throws DoctorNotFoundException {
+		List<Doctor> list = new ArrayList<>();
+		list = doctorService.findByFirstNameAndAge(firstName, age);
+		if (list.isEmpty())
+			throw new DoctorNotFoundException("Doctor Record Not Found.....");
+		return new ResponseEntity<List<Doctor>>(list, HttpStatus.OK);
+	}
+
+	@Operation(
+			summary = "Find Doctor Email And Mobile Number by Id", description = "Get a Patient object by specifying its id. The response is Patient object .")
+	@ApiResponses({
+			@ApiResponse(responseCode = "200", content = {
+					@Content(schema = @Schema(implementation = Doctor.class), mediaType = "application/json") }),
+			@ApiResponse(responseCode = "404", content = { @Content(schema = @Schema()) }),
+			@ApiResponse(responseCode = "500", content = { @Content(schema = @Schema()) }) })
+	@GetMapping("/getDoctorEmailAndMobileUsingId/{dId}")
+	public ResponseEntity<Map<String, String>> getPatientDetails(@PathVariable int dId) {
+		try {
+			Doctor doctor = doctorService.getDoctorBydId(dId);
+			Map<String, String> res = new HashMap<>();
+			res.put("email", doctor.getEmail());
+			res.put("mobile", doctor.getMobile());
+			return ResponseEntity.ok(res);
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND)
+					.body(Collections.singletonMap("error", "Patient Id does not exists....." + dId));
+		}
+
+	}
+
+	@Operation(
+			summary = "Edit  Doctor Email And Mobile Number by Id", description = "Edit Patient object by specifying its id. The response is Patient object .")
+	@ApiResponses({
+			@ApiResponse(responseCode = "200", content = {
+					@Content(schema = @Schema(implementation = Doctor.class), mediaType = "application/json") }),
 			@ApiResponse(responseCode = "404", content = { @Content(schema = @Schema()) }),
 			@ApiResponse(responseCode = "500", content = { @Content(schema = @Schema()) }) })
 	@PutMapping("/editDoctor")
-	public ResponseEntity<Doctor>editDoctor(@RequestBody @Valid DoctorRequest doctorRequest ) throws DoctorNotFoundException{
+	public ResponseEntity<Doctor> editDoctor(@RequestBody @Valid DoctorRequest doctorRequest)
+			throws DoctorNotFoundException {
 		Doctor doctor = doctorService.editDoctor(doctorRequest);
-		return new ResponseEntity<Doctor>(doctor,HttpStatus.OK);
-		
-	}	 
-	
-
-
+		return new ResponseEntity<Doctor>(doctor, HttpStatus.OK);
+	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
