@@ -1,5 +1,6 @@
 package code.microsystem.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -7,26 +8,26 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import code.microsystem.dto.DoctorRequest;
-
+import code.microsystem.entity.Address;
 import code.microsystem.entity.Doctor;
 import code.microsystem.exception.DoctorNotFoundException;
 import code.microsystem.repository.DoctorRepository;
 import code.microsystem.service.DoctorService;
 import jakarta.validation.Valid;
 
-
-@Service
+@Service	
 public class DoctorServiceImpl implements DoctorService{
 	@Autowired
 	private DoctorRepository doctorRepository;
 
 	@Override
 	public Doctor addDoctor(DoctorRequest doctorRequest) {
+		
 		Doctor doctorObj = Doctor.builder().firstName(doctorRequest.getFirstName()).middleName(doctorRequest.getMiddleName()).
 				lastName(doctorRequest.getLastName()).email(doctorRequest.getEmail()).gender(doctorRequest.getGender()).
 				mobile(doctorRequest.getMobile()).aadharNumber(doctorRequest.getAadharNumber()).age(doctorRequest.getAge()).
 				dob(doctorRequest.getDob()).department(doctorRequest.getDepartment()).qualification(doctorRequest.getQualification()).
-				specialization(doctorRequest.getSpecialization()).address(doctorRequest.getAddress()).build();
+				specialization(doctorRequest.getSpecialization()).addresses(doctorRequest.getAddresses()).build();
 		return doctorRepository.save(doctorObj);
 	}
 
@@ -93,7 +94,11 @@ public class DoctorServiceImpl implements DoctorService{
 	    doctor.setQualification(doctorRequest.getQualification());
 	    doctor.setDepartment(doctorRequest.getDepartment());
 	    doctor.setSpecialization(doctorRequest.getSpecialization());
-	    doctor.setAddress(doctorRequest.getAddress());
+	    List<Address> addresses=new ArrayList<Address>();
+	    for(Address address: addresses) {
+	    	addresses.add(address);
+	    }
+	    doctor.setAddresses(addresses);
 
 	    return doctorRepository.save(doctor);
 	}

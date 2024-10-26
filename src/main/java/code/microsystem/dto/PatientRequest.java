@@ -1,6 +1,7 @@
 package code.microsystem.dto;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import code.microsystem.entity.Address;
 import jakarta.validation.constraints.Email;
@@ -22,8 +23,7 @@ import lombok.Setter;
 public class PatientRequest {
 	private int pId;
 	
-	@NotNull(message = "Address cannot be null")
-	private Address address;
+	private List<Address> addresses;
 	@NotNull(message= "Null Value not allow in patient FirstName")
 	@NotBlank(message= "Patient First Name Should Not be Blank")
 	private String firstName;
@@ -42,12 +42,7 @@ public class PatientRequest {
 	private String mobile;
     @NotBlank(message = "Aadhar Number cannot be null")
 	private String aadharNumber;
-    @NotBlank(message = "Date of Birth cannot be null")
-    @Past(message = "Date of Birth must be in the past")
 	private LocalDate dob;
-    @NotBlank(message = "Age cannot be null")
-    @Min(value = 0, message = "Age must be at least 0")
-    @Max(value = 120, message = "Age must be less than or equal to 120")
 	private int age;
 
 

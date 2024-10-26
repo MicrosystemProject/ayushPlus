@@ -47,7 +47,6 @@ public class DoctorController {
 	public ResponseEntity<String> getHealth() {
 		return new ResponseEntity<String>("Ayush Plus Project is Running Successfully for Good Health..",
 				HttpStatus.OK);
-
 	}
 	@Operation(summary = "Add New Doctor",description = "Add New Doctor")
 	@ApiResponses({

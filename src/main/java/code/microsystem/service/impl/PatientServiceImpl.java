@@ -1,5 +1,6 @@
 package code.microsystem.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -7,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import code.microsystem.dto.PatientRequest;
+import code.microsystem.entity.Address;
 import code.microsystem.entity.Patient;
 import code.microsystem.exception.PatientNotFoundException;
 import code.microsystem.repository.PatientRepository;
@@ -24,7 +26,7 @@ public class PatientServiceImpl implements PatientService {
 		Patient patientObj = Patient.builder().firstName(patientRequest.getFirstName()).middleName(patientRequest.getMiddleName()).
 				lastName(patientRequest.getLastName()).age(patientRequest.getAge()).dob(patientRequest.getDob()).
                 gender(patientRequest.getGender()).email(patientRequest.getEmail()).mobile(patientRequest.getMobile()).
-                aadharNumber(patientRequest.getAadharNumber()).address(patientRequest.getAddress()).build();
+                aadharNumber(patientRequest.getAadharNumber()).addresses(patientRequest.getAddresses()).build();
 		return patientRepository.save(patientObj);
 	}
 
@@ -67,8 +69,11 @@ public class PatientServiceImpl implements PatientService {
 	    patient.setMobile(patientRequest.getMobile());
 	    patient.setAadharNumber(patientRequest.getAadharNumber());
 	    patient.setDob(patientRequest.getDob());
-	    patient.setAddress(patientRequest.getAddress());
-
+	    List<Address> addresses =new ArrayList<Address>();
+	    for(Address address: addresses) {
+	    	addresses.add(address);
+	    }   
+	    patient.setAddresses(addresses);
 	    return patientRepository.save(patient);
 	}
 

@@ -5,6 +5,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -49,7 +50,8 @@ class AyushPlusApplicationTests {
         patientRequest.setGender("Female");
         
         // Create an Address object
-        Address address = new Address();
+        List<Address> addresses = new ArrayList<Address>();
+        Address address=new Address();
         address.setAddressLine1("Nagpur");
         address.setAddressLine2("Pune");
         address.setCountry("Indian");
@@ -57,13 +59,14 @@ class AyushPlusApplicationTests {
         address.setState("Maharashtra");
         address.setDist("Yavatmal");
         address.setPostalCode("440001");
-        
-       patientRequest.setAddress(address); // Set the Address object in PatientRequest
+        addresses.add(address);
+       patientRequest.setAddresses(addresses); // Set the Address object in PatientRequest
 
         // Create a Patient object to be returned by the service
         Patient  savedPatient = Patient.builder().pId(1).firstName("Suchita").middleName("Sanket").lastName("Sharma").
         		email("suchitasharma@gmail.com")
-        		.age(30).gender("Female").mobile("8805449634").aadharNumber("1234536278").address(address).build();
+        		.age(30).gender("Female").mobile("8805449634").
+        		aadharNumber("1234536278").addresses(addresses).build();
 
         // Mock the service layer to return the patient when the addPatient method is called
         when(patientRepository.save(any(Patient.class))).thenReturn(savedPatient);
@@ -82,8 +85,12 @@ class AyushPlusApplicationTests {
        assertEquals(savedPatient.getEmail(),result.getEmail());
        assertEquals(savedPatient.getGender(),result.getGender());
        assertEquals(savedPatient.getMobile(),result .getMobile());
-       assertEquals(savedPatient.getAddress(),result.getAddress());
+       assertEquals(savedPatient.getAddresses().size(), result.getAddresses().size());
+       for (int i = 0; i < savedPatient.getAddresses().size(); i++) {
+           Address expectedAddress = savedPatient.getAddresses().get(i);
+           Address actualAddress = result.getAddresses().get(i);
    }
+    }
     @Test
     public void getAllPatientTest() {
         // Create sample Patient objects
